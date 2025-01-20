@@ -1,0 +1,1711 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.moneyhandler.view;
+import com.moneyhandler.model.TransactionModel;
+import com.moneyhandler.controller.algorithm.InsertionSort;
+import com.moneyhandler.controller.algorithm.MergeSort;
+import com.moneyhandler.controller.algorithm.SelectionSort;
+import com.moneyhandler.controller.algorithm.BinarySearch;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import com.moneyhandler.util.ValidationUtil;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JDialog;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+/**
+ *
+ * @author linux
+ */
+public class MoneyHandler extends javax.swing.JFrame {
+
+    
+    private List<TransactionModel> paymentList;
+    private java.awt.CardLayout cardLayout;
+    /**
+     * Creates new form MoneyHandler
+     */
+    public MoneyHandler() {
+        initComponents();
+        initializeLayout(); // Set up CardLayout and add screens
+        initializeData(); // Initialize student data and table
+        startProgress();// Show loading screen and initiate progress
+    }
+
+    private void initializeLayout() {
+        cardLayout = new java.awt.CardLayout();
+        getContentPane().setLayout(cardLayout);
+
+        // Add panels with unique identifiers
+        getContentPane().add(pnlLoadingScreen, "LoadingScreen");
+        getContentPane().add(pnlLoginScreen, "LoginScreen");
+        getContentPane().add(pnlMainScreen, "MainScreen");
+
+        // Start with the loading screen
+        cardLayout.show(getContentPane(), "LoadingScreen");
+    }
+
+    private void initializeData() {
+        paymentList = new LinkedList<>();
+
+        // Create a table model with updated column names
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[][]{}, // No initial data
+            new String[]{ // Updated column names
+                "PaymentID", "Date", "Category", 
+                "Income/Expense", "Source/Vendor", 
+                "Amount", "Mode", "Remarks"
+            }
+        );
+        tblTransaction.setModel(model); // Update to new table model
+
+        // Example data for the updated table
+        registerPayment(new TransactionModel(10111, "2024-01-10", "Groceries", "Expense", 
+            "Local Vendor", 1500.0, "Cash", "Paid in full"));
+        registerPayment(new TransactionModel(10912, "2024-01-11", "Salary", "Income", 
+            "Company", 50000.0, "Bank Transfer", "Monthly payment"));
+        registerPayment(new TransactionModel(10645, "2024-01-12", "Travel", "Expense", 
+            "Travel Agency", 12000.0, "Credit Card", "Flight ticket"));
+        registerPayment(new TransactionModel(10423, "2024-01-13", "Freelancing", "Income", 
+            "Client", 8000.0, "Bank Transfer", "Project completed"));
+        registerPayment(new TransactionModel(10367, "2024-01-14", "Utilities", "Expense", 
+            "Utility Company", 3000.0, "Online Payment", "Electricity bill"));
+    }
+
+    private void registerPayment(TransactionModel payment) {
+        paymentList.add(payment);
+        DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();
+        model.addRow(new Object[]{
+            payment.getPaymentID(), payment.getDate(), payment.getCategory(), 
+            payment.getIncomeExpense(), payment.getSourceVendor(), 
+            payment.getAmount(), payment.getMode(), payment.getRemarks()
+        });
+    }
+    
+    
+    // Method to simulate loading progress
+    private void startProgress() {
+        javax.swing.SwingWorker<Void, Integer> worker = new javax.swing.SwingWorker<>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                for (int i = 0; i <= 100; i++) {
+                    Thread.sleep(10); // Simulated delay for progress bar
+                    publish(i);
+                }
+                return null;
+            }
+
+            @Override
+            protected void process(java.util.List<Integer> chunks) {
+                int progress = chunks.get(chunks.size() - 1);
+                pgBarSplashScreen.setValue(progress);
+            }
+
+            @Override
+            protected void done() {
+                loadScreen("LoginScreen"); // Switch to login screen
+            }
+        };
+        worker.execute();
+    }
+    // Method to switch screens
+    private void loadScreen(String screenName) {
+        cardLayout.show(getContentPane(), screenName);
+    }
+
+    
+    
+    
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        pnlLoginScreen = new javax.swing.JPanel();
+        lblLoginLogo = new javax.swing.JLabel();
+        lblLoginUsername = new javax.swing.JLabel();
+        lblLoginPassword = new javax.swing.JLabel();
+        lblLoginSlogan = new javax.swing.JLabel();
+        lblLoginSlogan2 = new javax.swing.JLabel();
+        lblErrorMessageLogin = new javax.swing.JLabel();
+        txtFldLoginUsername = new javax.swing.JTextField();
+        pwdFldLoginPassword = new javax.swing.JPasswordField();
+        btnLogin = new javax.swing.JButton();
+        pnlMainScreen = new javax.swing.JPanel();
+        pnlMainBar = new javax.swing.JPanel();
+        lblMainBarLogo = new javax.swing.JLabel();
+        lblMainBarSlogan = new javax.swing.JLabel();
+        btnLogOut = new javax.swing.JButton();
+        tabPaneMain = new javax.swing.JTabbedPane();
+        pnlHome = new javax.swing.JPanel();
+        lblHomeWelcome = new javax.swing.JLabel();
+        lblHomeSlogan1 = new javax.swing.JLabel();
+        lblHomeSlogan2 = new javax.swing.JLabel();
+        lblHomeSlogan3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        lblHome = new javax.swing.JLabel();
+        pnlTransactionList = new javax.swing.JPanel();
+        spTblTransaction = new javax.swing.JScrollPane();
+        tblTransaction = new javax.swing.JTable();
+        lblTblTransaction = new javax.swing.JLabel();
+        pnlPersonalTransactionForm = new javax.swing.JPanel();
+        txtFldPaymentID = new javax.swing.JTextField();
+        txtFldDate = new javax.swing.JTextField();
+        txtFldCategory = new javax.swing.JTextField();
+        txtFldSourceVendor = new javax.swing.JTextField();
+        txtFldAmount = new javax.swing.JTextField();
+        txtFldRemarks = new javax.swing.JTextField();
+        lblErrorMessagePaymentID = new javax.swing.JLabel();
+        lblErrorMessageDate = new javax.swing.JLabel();
+        lblErrorMessageCategory = new javax.swing.JLabel();
+        lblErrorMessageIE = new javax.swing.JLabel();
+        lblErrorMessageSV = new javax.swing.JLabel();
+        jcBoxMode = new javax.swing.JComboBox<>();
+        txtFldIncomeExpense = new javax.swing.JTextField();
+        lblErrorMessageAmount = new javax.swing.JLabel();
+        lblErrorMessageRemarks = new javax.swing.JLabel();
+        btnAdd = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        cmbSortedBy = new javax.swing.JComboBox<>();
+        cmbSelectionSortingOrder = new javax.swing.JComboBox<>();
+        btnSorting = new javax.swing.JButton();
+        txtSearchValue = new javax.swing.JTextField();
+        btnSearching = new javax.swing.JButton();
+        pnlAboutUs = new javax.swing.JPanel();
+        lblMoneyHandler = new javax.swing.JLabel();
+        lblAboutUs = new javax.swing.JLabel();
+        lblTeam = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        pnlContactUs = new javax.swing.JPanel();
+        lblContactUs = new javax.swing.JLabel();
+        lblSlogan = new javax.swing.JLabel();
+        lblName = new javax.swing.JLabel();
+        txtFldName = new javax.swing.JTextField();
+        lblEmail = new javax.swing.JLabel();
+        txtFldEmail = new javax.swing.JTextField();
+        lblContactNumber = new javax.swing.JLabel();
+        txtFldContactNumber = new javax.swing.JTextField();
+        lblMessage = new javax.swing.JLabel();
+        txtFldMessage = new javax.swing.JTextField();
+        btnSendMessage = new javax.swing.JButton();
+        pnlLoadingScreen = new javax.swing.JPanel();
+        lblLoadingLogo = new javax.swing.JLabel();
+        pgBarSplashScreen = new javax.swing.JProgressBar();
+        jLabel1 = new javax.swing.JLabel();
+
+        pnlLoginScreen.setBackground(new java.awt.Color(138, 129, 124));
+        pnlLoginScreen.setMaximumSize(new java.awt.Dimension(1130, 683));
+        pnlLoginScreen.setMinimumSize(new java.awt.Dimension(1130, 683));
+        pnlLoginScreen.setPreferredSize(new java.awt.Dimension(1130, 683));
+
+        lblLoginLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/MoneyHandler_big.png"))); // NOI18N
+
+        lblLoginUsername.setFont(new java.awt.Font("Big Caslon", 1, 48)); // NOI18N
+        lblLoginUsername.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLoginUsername.setText("Hurry Up!!!");
+
+        lblLoginPassword.setFont(new java.awt.Font("Big Caslon", 1, 48)); // NOI18N
+        lblLoginPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblLoginPassword.setText("You're only one click away!!");
+
+        lblLoginSlogan.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblLoginSlogan.setText("Username: ");
+
+        lblLoginSlogan2.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblLoginSlogan2.setText("Password:");
+        lblLoginSlogan2.setMaximumSize(new java.awt.Dimension(84, 22));
+        lblLoginSlogan2.setMinimumSize(new java.awt.Dimension(84, 22));
+        lblLoginSlogan2.setPreferredSize(new java.awt.Dimension(84, 22));
+
+        lblErrorMessageLogin.setFont(new java.awt.Font("Big Caslon", 1, 14)); // NOI18N
+        lblErrorMessageLogin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        txtFldLoginUsername.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        txtFldLoginUsername.setMaximumSize(new java.awt.Dimension(250, 40));
+        txtFldLoginUsername.setMinimumSize(new java.awt.Dimension(250, 40));
+        txtFldLoginUsername.setPreferredSize(new java.awt.Dimension(250, 40));
+
+        pwdFldLoginPassword.setMaximumSize(new java.awt.Dimension(250, 40));
+        pwdFldLoginPassword.setMinimumSize(new java.awt.Dimension(250, 40));
+        pwdFldLoginPassword.setPreferredSize(new java.awt.Dimension(250, 40));
+
+        btnLogin.setBackground(new java.awt.Color(102, 102, 102));
+        btnLogin.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        btnLogin.setText("Login");
+        btnLogin.setMaximumSize(new java.awt.Dimension(102, 45));
+        btnLogin.setMinimumSize(new java.awt.Dimension(102, 45));
+        btnLogin.setPreferredSize(new java.awt.Dimension(102, 45));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlLoginScreenLayout = new javax.swing.GroupLayout(pnlLoginScreen);
+        pnlLoginScreen.setLayout(pnlLoginScreenLayout);
+        pnlLoginScreenLayout.setHorizontalGroup(
+            pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginScreenLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlLoginScreenLayout.createSequentialGroup()
+                        .addComponent(lblLoginSlogan)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtFldLoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLoginScreenLayout.createSequentialGroup()
+                        .addComponent(lblLoginSlogan2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(pwdFldLoginPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(379, 379, 379))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginScreenLayout.createSequentialGroup()
+                .addContainerGap(286, Short.MAX_VALUE)
+                .addGroup(pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginScreenLayout.createSequentialGroup()
+                        .addComponent(lblLoginLogo)
+                        .addGap(419, 419, 419))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginScreenLayout.createSequentialGroup()
+                        .addComponent(lblLoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(406, 406, 406))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoginScreenLayout.createSequentialGroup()
+                        .addComponent(lblLoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(168, 168, 168))))
+            .addGroup(pnlLoginScreenLayout.createSequentialGroup()
+                .addGap(316, 316, 316)
+                .addComponent(lblErrorMessageLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlLoginScreenLayout.setVerticalGroup(
+            pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginScreenLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(lblLoginLogo)
+                .addGap(12, 12, 12)
+                .addComponent(lblLoginUsername)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblLoginPassword)
+                .addGap(24, 24, 24)
+                .addGroup(pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFldLoginUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLoginSlogan))
+                .addGap(18, 18, 18)
+                .addGroup(pnlLoginScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pwdFldLoginPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblLoginSlogan2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblErrorMessageLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addGap(28, 28, 28))
+        );
+
+        pnlMainScreen.setBackground(new java.awt.Color(165, 165, 141));
+        pnlMainScreen.setMaximumSize(new java.awt.Dimension(1130, 683));
+        pnlMainScreen.setMinimumSize(new java.awt.Dimension(1130, 683));
+        pnlMainScreen.setPreferredSize(new java.awt.Dimension(1130, 683));
+
+        pnlMainBar.setBackground(new java.awt.Color(107, 112, 92));
+
+        lblMainBarLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/MoneyHandler_small.png"))); // NOI18N
+
+        lblMainBarSlogan.setFont(new java.awt.Font("Big Caslon", 1, 24)); // NOI18N
+        lblMainBarSlogan.setText("Smart saving, Simple spending, Smooth sailing.");
+
+        btnLogOut.setBackground(new java.awt.Color(188, 184, 177));
+        btnLogOut.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        btnLogOut.setText("Log Out");
+        btnLogOut.setMaximumSize(new java.awt.Dimension(102, 45));
+        btnLogOut.setMinimumSize(new java.awt.Dimension(102, 45));
+        btnLogOut.setPreferredSize(new java.awt.Dimension(102, 45));
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlMainBarLayout = new javax.swing.GroupLayout(pnlMainBar);
+        pnlMainBar.setLayout(pnlMainBarLayout);
+        pnlMainBarLayout.setHorizontalGroup(
+            pnlMainBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMainBarLogo)
+                .addGap(220, 220, 220)
+                .addComponent(lblMainBarSlogan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnlMainBarLayout.setVerticalGroup(
+            pnlMainBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainBarLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addGroup(pnlMainBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMainBarSlogan))
+                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(pnlMainBarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblMainBarLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabPaneMain.setBackground(new java.awt.Color(188, 184, 177));
+        tabPaneMain.setFont(new java.awt.Font("Big Caslon", 1, 16)); // NOI18N
+
+        pnlHome.setBackground(new java.awt.Color(70, 63, 58));
+
+        lblHomeWelcome.setFont(new java.awt.Font("Big Caslon", 3, 36)); // NOI18N
+        lblHomeWelcome.setText("Welcome to MoneyHandler");
+
+        lblHomeSlogan1.setFont(new java.awt.Font("Big Caslon", 3, 36)); // NOI18N
+        lblHomeSlogan1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHomeSlogan1.setText("Your Personal");
+        lblHomeSlogan1.setMaximumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan1.setMinimumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan1.setPreferredSize(new java.awt.Dimension(222, 44));
+
+        lblHomeSlogan2.setFont(new java.awt.Font("Big Caslon", 3, 36)); // NOI18N
+        lblHomeSlogan2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHomeSlogan2.setText("Monetary");
+        lblHomeSlogan2.setMaximumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan2.setMinimumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan2.setPreferredSize(new java.awt.Dimension(222, 44));
+
+        lblHomeSlogan3.setFont(new java.awt.Font("Big Caslon", 3, 36)); // NOI18N
+        lblHomeSlogan3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHomeSlogan3.setText("Goal Tracker");
+        lblHomeSlogan3.setMaximumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan3.setMinimumSize(new java.awt.Dimension(222, 44));
+        lblHomeSlogan3.setPreferredSize(new java.awt.Dimension(222, 44));
+
+        jPanel1.setBackground(new java.awt.Color(138, 129, 124));
+        jPanel1.setMaximumSize(new java.awt.Dimension(833, 224));
+        jPanel1.setPreferredSize(new java.awt.Dimension(833, 224));
+        jPanel1.setSize(new java.awt.Dimension(833, 224));
+
+        lblHome.setBackground(new java.awt.Color(138, 129, 124));
+        lblHome.setFont(new java.awt.Font("Big Caslon", 3, 18)); // NOI18N
+        lblHome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblHome.setText("<html>                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &nbsp;            Come and join us to a new begining.  A begining where you are financial aware and secured.<br>  &nbsp;   Join MoneyHandler, your go-to app for effortless financial management. We help you track your spending,  <br> stay on top of your income, and make smarter financial decision as we make you aware of your spending habits, <br> &nbsp;&nbsp;&nbsp;     in a world where digital payment has been taking over, making you lost as you lose track of your monetary <br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 transactions. With just a few taps you can simplify your budgeting and start saving more.<br><br>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                      So, what's the delay?<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Let's get started!<br> </html>");
+        lblHome.setMaximumSize(new java.awt.Dimension(833, 224));
+        lblHome.setMinimumSize(new java.awt.Dimension(833, 224));
+        lblHome.setPreferredSize(new java.awt.Dimension(833, 224));
+        lblHome.setSize(new java.awt.Dimension(833, 224));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout pnlHomeLayout = new javax.swing.GroupLayout(pnlHome);
+        pnlHome.setLayout(pnlHomeLayout);
+        pnlHomeLayout.setHorizontalGroup(
+            pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                .addGap(0, 142, Short.MAX_VALUE)
+                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(143, 143, 143))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                        .addComponent(lblHomeSlogan3, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(301, 301, 301))))
+            .addGroup(pnlHomeLayout.createSequentialGroup()
+                .addGap(300, 300, 300)
+                .addComponent(lblHomeSlogan1, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                        .addComponent(lblHomeWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(317, 317, 317))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlHomeLayout.createSequentialGroup()
+                        .addComponent(lblHomeSlogan2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(423, 423, 423))))
+        );
+        pnlHomeLayout.setVerticalGroup(
+            pnlHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlHomeLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(lblHomeWelcome, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblHomeSlogan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(lblHomeSlogan2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblHomeSlogan3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+
+        tabPaneMain.addTab("Home", pnlHome);
+
+        pnlTransactionList.setBackground(new java.awt.Color(94, 80, 63));
+
+        spTblTransaction.setFont(new java.awt.Font("Big Caslon", 0, 14)); // NOI18N
+        spTblTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                spTblTransactionMouseClicked(evt);
+            }
+        });
+
+        tblTransaction.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        tblTransaction.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Payment ID", "Date", "Category", "Income / Expense", "Source / Vendor", "Amount (in NRS)", "Mode of Payment", "Remarks"
+            }
+        ));
+        tblTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTransactionMouseClicked(evt);
+            }
+        });
+        spTblTransaction.setViewportView(tblTransaction);
+        if (tblTransaction.getColumnModel().getColumnCount() > 0) {
+            tblTransaction.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblTransaction.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tblTransaction.getColumnModel().getColumn(2).setPreferredWidth(35);
+            tblTransaction.getColumnModel().getColumn(7).setPreferredWidth(30);
+        }
+
+        lblTblTransaction.setFont(new java.awt.Font("Big Caslon", 1, 16)); // NOI18N
+        lblTblTransaction.setForeground(new java.awt.Color(242, 242, 242));
+        lblTblTransaction.setText("Transaction Information");
+
+        pnlPersonalTransactionForm.setBackground(new java.awt.Color(198, 172, 143));
+        pnlPersonalTransactionForm.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Personal Transaction Form", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.ABOVE_TOP, new java.awt.Font("Big Caslon", 1, 18))); // NOI18N
+
+        txtFldPaymentID.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldPaymentID.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Payment ID", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+        txtFldPaymentID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldPaymentIDActionPerformed(evt);
+            }
+        });
+
+        txtFldDate.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldDate.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+        txtFldDate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldDateActionPerformed(evt);
+            }
+        });
+
+        txtFldCategory.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldCategory.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        txtFldSourceVendor.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldSourceVendor.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Source / Vendor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        txtFldAmount.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldAmount.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Amount", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        txtFldRemarks.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldRemarks.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Remarks", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        lblErrorMessagePaymentID.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+
+        lblErrorMessageDate.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+
+        lblErrorMessageCategory.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+
+        lblErrorMessageIE.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+
+        lblErrorMessageSV.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+        lblErrorMessageSV.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jcBoxMode.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        jcBoxMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash", "Card", "Bank Transfer", "Online Payment" }));
+        jcBoxMode.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mode", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        txtFldIncomeExpense.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtFldIncomeExpense.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Income / Expense", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        lblErrorMessageAmount.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+        lblErrorMessageAmount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lblErrorMessageRemarks.setFont(new java.awt.Font("Big Caslon", 1, 10)); // NOI18N
+        lblErrorMessageRemarks.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout pnlPersonalTransactionFormLayout = new javax.swing.GroupLayout(pnlPersonalTransactionForm);
+        pnlPersonalTransactionForm.setLayout(pnlPersonalTransactionFormLayout);
+        pnlPersonalTransactionFormLayout.setHorizontalGroup(
+            pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                        .addComponent(txtFldSourceVendor, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(txtFldAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jcBoxMode, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(93, 93, 93)
+                        .addComponent(txtFldRemarks, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPersonalTransactionFormLayout.createSequentialGroup()
+                        .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblErrorMessagePaymentID, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblErrorMessageSV, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                                        .addComponent(lblErrorMessageAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblErrorMessageRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                                        .addComponent(lblErrorMessageDate, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblErrorMessageCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblErrorMessageIE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                                .addComponent(txtFldPaymentID, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(txtFldDate, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64)
+                                .addComponent(txtFldCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtFldIncomeExpense, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(17, 17, 17))))
+        );
+        pnlPersonalTransactionFormLayout.setVerticalGroup(
+            pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtFldDate)
+                    .addComponent(txtFldCategory)
+                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                        .addComponent(txtFldPaymentID, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addComponent(txtFldIncomeExpense))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblErrorMessagePaymentID, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrorMessageDate, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrorMessageCategory, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrorMessageIE, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jcBoxMode, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                            .addComponent(txtFldSourceVendor)
+                            .addComponent(txtFldAmount)))
+                    .addGroup(pnlPersonalTransactionFormLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtFldRemarks)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlPersonalTransactionFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblErrorMessageAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrorMessageRemarks, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblErrorMessageSV, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        btnAdd.setBackground(new java.awt.Color(234, 224, 213));
+        btnAdd.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setBackground(new java.awt.Color(234, 224, 213));
+        btnUpdate.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setBackground(new java.awt.Color(234, 224, 213));
+        btnDelete.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnClear.setBackground(new java.awt.Color(234, 224, 213));
+        btnClear.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
+        cmbSortedBy.setBackground(new java.awt.Color(244, 243, 238));
+        cmbSortedBy.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        cmbSortedBy.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Payment ID", "Category", "Source/Vendor" }));
+        cmbSortedBy.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sorted By", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        cmbSelectionSortingOrder.setBackground(new java.awt.Color(244, 243, 238));
+        cmbSelectionSortingOrder.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        cmbSelectionSortingOrder.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ascending", "Descending" }));
+        cmbSelectionSortingOrder.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selecting Order", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 13))); // NOI18N
+
+        btnSorting.setBackground(new java.awt.Color(234, 224, 213));
+        btnSorting.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnSorting.setText("Sort");
+        btnSorting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSortingActionPerformed(evt);
+            }
+        });
+
+        txtSearchValue.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        txtSearchValue.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Enter a value", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Big Caslon", 1, 14))); // NOI18N
+        txtSearchValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchValueActionPerformed(evt);
+            }
+        });
+
+        btnSearching.setBackground(new java.awt.Color(234, 224, 213));
+        btnSearching.setFont(new java.awt.Font("Big Caslon", 1, 13)); // NOI18N
+        btnSearching.setText("Search");
+        btnSearching.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchingActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlTransactionListLayout = new javax.swing.GroupLayout(pnlTransactionList);
+        pnlTransactionList.setLayout(pnlTransactionListLayout);
+        pnlTransactionListLayout.setHorizontalGroup(
+            pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                        .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(btnClear, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnUpdate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlPersonalTransactionForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                        .addComponent(spTblTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                                .addComponent(txtSearchValue)
+                                .addContainerGap())
+                            .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                                .addComponent(btnSorting, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                                .addComponent(btnSearching, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(20, 20, 20))
+                            .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                                .addComponent(cmbSortedBy, 0, 1, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cmbSelectionSortingOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                        .addComponent(lblTblTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        pnlTransactionListLayout.setVerticalGroup(
+            pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addComponent(lblTblTransaction)
+                .addGap(18, 18, 18)
+                .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spTblTransaction, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                        .addComponent(txtSearchValue, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnSorting, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                            .addComponent(btnSearching, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cmbSortedBy, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbSelectionSortingOrder, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlTransactionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionListLayout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlPersonalTransactionForm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
+        );
+
+        tabPaneMain.addTab("Transaction List", pnlTransactionList);
+
+        pnlAboutUs.setBackground(new java.awt.Color(138, 129, 124));
+
+        lblMoneyHandler.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblMoneyHandler.setText("MoneyHandler");
+
+        lblAboutUs.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblAboutUs.setText("<html>  Introducing MoneyHandler, an app launched in late 2024 founded on the visionary idea of it's creator.  Originating from Islington College, Nepal, MoneyHandler was created by Aayosha Nepali and her  dedicated creative team, committed to excellence, aiming to help<br> their users acheive their financial goals by allowing them to track and manage their day to day financial transactions along with their <br> financial  decisions. <br> \t      MoneyHandler stands as a testament to innovation and quality when it comes to it's management system as it not only allows<br>  them to track and manage their each and every financial transaction but it also keeps them mindful of their own capital decision no matter how little or bigger it is. <br> </html>");
+        lblAboutUs.setMaximumSize(new java.awt.Dimension(2147483647, 110));
+        lblAboutUs.setMinimumSize(new java.awt.Dimension(116, 110));
+
+        lblTeam.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblTeam.setText("Meet Our Team");
+        lblTeam.setMaximumSize(new java.awt.Dimension(112, 22));
+        lblTeam.setMinimumSize(new java.awt.Dimension(112, 22));
+        lblTeam.setPreferredSize(new java.awt.Dimension(112, 22));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/LordPerceval.png"))); // NOI18N
+        jLabel2.setText("\n");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/Schumi.png"))); // NOI18N
+        jLabel3.setText("\n");
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/LaSpeedy.png"))); // NOI18N
+        jLabel4.setText("\n");
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/MagicSenna.png"))); // NOI18N
+        jLabel5.setText("\n");
+
+        javax.swing.GroupLayout pnlAboutUsLayout = new javax.swing.GroupLayout(pnlAboutUs);
+        pnlAboutUs.setLayout(pnlAboutUsLayout);
+        pnlAboutUsLayout.setHorizontalGroup(
+            pnlAboutUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAboutUsLayout.createSequentialGroup()
+                .addGroup(pnlAboutUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlAboutUsLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(pnlAboutUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMoneyHandler, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlAboutUsLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(62, 62, 62)
+                                .addComponent(jLabel5)
+                                .addGap(54, 54, 54)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(59, 59, 59)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(pnlAboutUsLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(lblAboutUs, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(83, Short.MAX_VALUE))
+        );
+        pnlAboutUsLayout.setVerticalGroup(
+            pnlAboutUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAboutUsLayout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addComponent(lblMoneyHandler, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblAboutUs, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlAboutUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+
+        tabPaneMain.addTab("About Us", pnlAboutUs);
+
+        pnlContactUs.setBackground(new java.awt.Color(188, 184, 177));
+
+        lblContactUs.setFont(new java.awt.Font("Big Caslon", 1, 24)); // NOI18N
+        lblContactUs.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblContactUs.setText("Contact Us");
+
+        lblSlogan.setFont(new java.awt.Font("Big Caslon", 1, 21)); // NOI18N
+        lblSlogan.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSlogan.setText("Have any questions or comments?");
+
+        lblName.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblName.setText("Name:");
+        lblName.setMaximumSize(new java.awt.Dimension(112, 35));
+        lblName.setMinimumSize(new java.awt.Dimension(112, 35));
+        lblName.setPreferredSize(new java.awt.Dimension(112, 35));
+
+        txtFldName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldNameActionPerformed(evt);
+            }
+        });
+
+        lblEmail.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblEmail.setText("Email:");
+        lblEmail.setMaximumSize(new java.awt.Dimension(112, 35));
+        lblEmail.setMinimumSize(new java.awt.Dimension(112, 35));
+        lblEmail.setPreferredSize(new java.awt.Dimension(112, 35));
+
+        txtFldEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFldEmailActionPerformed(evt);
+            }
+        });
+
+        lblContactNumber.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblContactNumber.setText("Contact Number:");
+        lblContactNumber.setMaximumSize(new java.awt.Dimension(112, 38));
+        lblContactNumber.setMinimumSize(new java.awt.Dimension(112, 38));
+        lblContactNumber.setPreferredSize(new java.awt.Dimension(112, 38));
+
+        lblMessage.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        lblMessage.setText("Message:");
+        lblMessage.setMaximumSize(new java.awt.Dimension(112, 35));
+        lblMessage.setMinimumSize(new java.awt.Dimension(112, 35));
+        lblMessage.setPreferredSize(new java.awt.Dimension(112, 35));
+        lblMessage.setRequestFocusEnabled(false);
+
+        btnSendMessage.setBackground(new java.awt.Color(153, 153, 153));
+        btnSendMessage.setFont(new java.awt.Font("Big Caslon", 1, 18)); // NOI18N
+        btnSendMessage.setText("Send Message");
+        btnSendMessage.setMaximumSize(new java.awt.Dimension(112, 35));
+        btnSendMessage.setMinimumSize(new java.awt.Dimension(112, 35));
+        btnSendMessage.setPreferredSize(new java.awt.Dimension(112, 35));
+        btnSendMessage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSendMessageActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlContactUsLayout = new javax.swing.GroupLayout(pnlContactUs);
+        pnlContactUs.setLayout(pnlContactUsLayout);
+        pnlContactUsLayout.setHorizontalGroup(
+            pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlContactUsLayout.createSequentialGroup()
+                        .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                                .addGap(411, 411, 411)
+                                .addComponent(lblContactUs, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                                .addGap(381, 381, 381)
+                                .addComponent(lblSlogan)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlContactUsLayout.createSequentialGroup()
+                        .addGap(341, 341, 341)
+                        .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                                .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(txtFldEmail))
+                            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                                .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(54, 54, 54)
+                                .addComponent(txtFldName, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+                            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFldMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                                    .addComponent(txtFldContactNumber))
+                                .addGap(1, 1, 1)))))
+                .addGap(345, 345, 345))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlContactUsLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSendMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(464, 464, 464))
+        );
+        pnlContactUsLayout.setVerticalGroup(
+            pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlContactUsLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addComponent(lblContactUs)
+                .addGap(18, 18, 18)
+                .addComponent(lblSlogan)
+                .addGap(26, 26, 26)
+                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldName, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
+                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFldContactNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(pnlContactUsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFldMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
+                .addComponent(btnSendMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
+        );
+
+        tabPaneMain.addTab("Contact Us", pnlContactUs);
+
+        javax.swing.GroupLayout pnlMainScreenLayout = new javax.swing.GroupLayout(pnlMainScreen);
+        pnlMainScreen.setLayout(pnlMainScreenLayout);
+        pnlMainScreenLayout.setHorizontalGroup(
+            pnlMainScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlMainBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnlMainScreenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabPaneMain)
+                .addContainerGap())
+        );
+        pnlMainScreenLayout.setVerticalGroup(
+            pnlMainScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMainScreenLayout.createSequentialGroup()
+                .addComponent(pnlMainBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabPaneMain)
+                .addContainerGap())
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(918, 673));
+
+        pnlLoadingScreen.setBackground(new java.awt.Color(70, 63, 58));
+        pnlLoadingScreen.setFont(new java.awt.Font("Big Caslon", 0, 13)); // NOI18N
+        pnlLoadingScreen.setMaximumSize(new java.awt.Dimension(1130, 683));
+        pnlLoadingScreen.setMinimumSize(new java.awt.Dimension(1130, 683));
+        pnlLoadingScreen.setPreferredSize(new java.awt.Dimension(1130, 683));
+
+        lblLoadingLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/moneyhandler/resources/MoneyHandler_big.png"))); // NOI18N
+
+        jLabel1.setFont(new java.awt.Font("Big Caslon", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Have some patience now, will ya?");
+
+        javax.swing.GroupLayout pnlLoadingScreenLayout = new javax.swing.GroupLayout(pnlLoadingScreen);
+        pnlLoadingScreen.setLayout(pnlLoadingScreenLayout);
+        pnlLoadingScreenLayout.setHorizontalGroup(
+            pnlLoadingScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoadingScreenLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlLoadingScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pgBarSplashScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 612, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 590, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlLoadingScreenLayout.createSequentialGroup()
+                .addContainerGap(449, Short.MAX_VALUE)
+                .addComponent(lblLoadingLogo)
+                .addGap(431, 431, 431))
+        );
+        pnlLoadingScreenLayout.setVerticalGroup(
+            pnlLoadingScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoadingScreenLayout.createSequentialGroup()
+                .addGap(130, 130, 130)
+                .addComponent(lblLoadingLogo)
+                .addGap(27, 27, 27)
+                .addComponent(pgBarSplashScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1)
+                .addContainerGap(167, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlLoadingScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlLoadingScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+        // Get the username and password input
+        String username = txtFldLoginUsername.getText();
+        String password = new String(pwdFldLoginPassword.getPassword());
+
+        // Check if username or password is empty
+        if (username.isEmpty() || password.isEmpty()) {
+            lblErrorMessageLogin.setText("Please enter your username and password.");
+        } // Check if username and password are incorrect
+        else if (!username.equals("dalle") || !password.equals("chillyice")) {
+            lblErrorMessageLogin.setText("Invalid Username and password.");
+        } // If credentials are correct, proceed to load the main screen
+        else {
+            lblErrorMessageLogin.setText(""); // Clear any previous error messages
+            loadScreen("MainScreen"); // Load the main screen
+        }
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        // TODO add your handling code here:
+        pwdFldLoginPassword.setText("");
+        txtFldLoginUsername.setText("");
+        loadScreen("LoginScreen"); // Load the main screen
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void txtFldPaymentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldPaymentIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldPaymentIDActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        
+        // Show confirmation dialog
+    int response = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to update the selected transaction data?", 
+            "Confirm Update", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE);
+    
+    // If user selects 'Yes'
+    if (response == JOptionPane.YES_OPTION) {
+        int selectedRow = tblTransaction.getSelectedRow();
+        if (selectedRow != -1) {
+            // Get updated values from input fields
+            String paymentId = txtFldPaymentID.getText();
+            String date = txtFldDate.getText();
+            String category = txtFldCategory.getText();
+            String incomeExpense = txtFldIncomeExpense.getText();
+            String sourceVendor = txtFldSourceVendor.getText();
+            String amount = txtFldAmount.getText();
+            String remarks = txtFldRemarks.getText();
+            String mode = jcBoxMode.getSelectedItem().toString();
+
+            // Validate inputs
+            if (ValidationUtil.isValidPaymentId(paymentId, lblErrorMessagePaymentID) &&
+                ValidationUtil.isValidDate(date, lblErrorMessageDate) &&
+                ValidationUtil.isValidCategory(category, lblErrorMessageCategory) &&
+                ValidationUtil.isValidIncomeExpensive(incomeExpense, lblErrorMessageIE) &&
+                ValidationUtil.isValidSourceVender(sourceVendor, lblErrorMessageSV) &&
+                ValidationUtil.isValidAmount(amount, lblErrorMessageAmount) &&
+                ValidationUtil.isValidRemarks(remarks, lblErrorMessageRemarks)) {
+                
+                // Clear error labels
+                lblErrorMessagePaymentID.setText("");
+                lblErrorMessageDate.setText("");
+                lblErrorMessageCategory.setText("");
+                lblErrorMessageIE.setText("");
+                lblErrorMessageSV.setText("");
+                lblErrorMessageAmount.setText("");
+                lblErrorMessageRemarks.setText("");
+
+                int paymentIdValue = Integer.parseInt(paymentId);
+                double amountValue = Double.parseDouble(amount);
+
+                // Check if the updated Payment ID already exists, excluding the current row
+                if (isPaymentIdExistsForUpdate(paymentIdValue, selectedRow)) {
+                    JOptionPane.showMessageDialog(this, 
+                            "Payment ID " + paymentId + " already exists and cannot be updated!", 
+                            "Duplicate Entry", 
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    // Update the table
+                    tblTransaction.setValueAt(paymentId, selectedRow, 0);
+                    tblTransaction.setValueAt(date, selectedRow, 1);
+                    tblTransaction.setValueAt(category, selectedRow, 2);
+                    tblTransaction.setValueAt(incomeExpense, selectedRow, 3);
+                    tblTransaction.setValueAt(sourceVendor, selectedRow, 4);
+                    tblTransaction.setValueAt(amount, selectedRow, 5);
+                    tblTransaction.setValueAt(remarks, selectedRow, 6);
+                    tblTransaction.setValueAt(mode, selectedRow, 7);
+
+                    // Update the transaction list (or database)
+                    TransactionModel updatedTransaction = new TransactionModel(
+                        paymentIdValue,
+                        date,
+                        category,
+                        incomeExpense,
+                        sourceVendor,
+                        amountValue,
+                        mode,
+                        remarks
+                    );
+                    paymentList.set(selectedRow, updatedTransaction); // Update in-memory list
+
+                    // Show a success message
+                    lblErrorMessagePaymentID.setText("Data successfully updated!");
+                    lblErrorMessagePaymentID.setForeground(Color.BLUE);
+                }
+            } else {
+                // If validation fails, show an error message
+                JOptionPane.showMessageDialog(this, "Invalid data! Please check inputs.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            // If no row is selected, show an error message
+            JOptionPane.showMessageDialog(this, "No row selected to update!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    } else {
+        // If the user selects 'No', no functionality is performed
+        JOptionPane.showMessageDialog(this, "Update action cancelled.", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+    }
+        
+        
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        // Show confirmation dialog
+   
+    int response = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to remove this transaction?", 
+            "Confirm Action", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE);
+    
+    // If user selects 'Yes'
+    if (response == JOptionPane.YES_OPTION) {
+        int selectedRow = tblTransaction.getSelectedRow(); // Get selected row
+        
+        if (selectedRow != -1) { // Check if a row is selected
+            // Remove data from the paymentList
+            paymentList.remove(selectedRow);
+
+            // Remove data from the table
+            DefaultTableModel model = (DefaultTableModel) tblTransaction.getModel();
+            model.removeRow(selectedRow);
+
+            lblErrorMessagePaymentID.setText("Transaction removed successfully.");
+            lblErrorMessagePaymentID.setForeground(Color.BLUE);
+        } else {
+            lblErrorMessagePaymentID.setText("No Transaction selected for removal!");
+            lblErrorMessagePaymentID.setForeground(Color.RED);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Action cancelled.", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+        // Show confirmation dialog
+        lblErrorMessagePaymentID.setText("");
+    int response = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to clear all fields?", 
+            "Confirm Action", 
+            JOptionPane.YES_NO_OPTION, 
+            JOptionPane.QUESTION_MESSAGE);
+    
+    // If user selects 'Yes' (response = JOptionPane.YES_OPTION)
+    if (response == JOptionPane.YES_OPTION) {
+        
+        // Clear all text fields and reset combo boxes
+        txtFldPaymentID.setText("");
+        txtFldDate.setText("");
+        txtFldCategory.setText("");
+        txtFldIncomeExpense.setText("");
+        txtFldSourceVendor.setText("");
+        txtFldAmount.setText("");
+        txtFldRemarks.setText("");
+        jcBoxMode.setSelectedIndex(0); // Reset JComboBox to default
+        
+        
+        JOptionPane.showMessageDialog(this, "All fields have been cleared.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        
+    } else {
+        // If the user selects 'No', no functionality is performed
+        JOptionPane.showMessageDialog(this, "Action cancelled.", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+    }
+    }//GEN-LAST:event_btnClearActionPerformed
+
+    private void txtFldDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldDateActionPerformed
+
+    
+    
+    private boolean isPaymentIdExists(int paymentId) {
+    // Replace 'paymentList' with the actual list or database storing payment data
+    for (TransactionModel transaction : paymentList) { 
+        if (transaction.getPaymentID() == paymentId) {
+            return true; // payment ID already exists
+        }
+    }
+    return false; // payment ID is unique
+    }
+    
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to proceed?",
+            "Confirm Action",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+    // If user selects 'Yes'
+    if (response == JOptionPane.YES_OPTION) {
+        // Get input data
+        String paymentId = txtFldPaymentID.getText();
+        String date = txtFldDate.getText();
+        String category = txtFldCategory.getText();
+        String incomeExpense = txtFldIncomeExpense.getText();
+        String sourceVendor = txtFldSourceVendor.getText();
+        String amount = txtFldAmount.getText();
+        String mode = jcBoxMode.getSelectedItem().toString();
+        String remarks = txtFldRemarks.getText();
+
+        // Validation flag
+        boolean isValid = true;
+
+        // Validate each field
+        if (!ValidationUtil.isValidPaymentId(paymentId, lblErrorMessagePaymentID)) {
+            isValid = false;
+        } else {
+            lblErrorMessagePaymentID.setText("");
+        }
+
+        if (!ValidationUtil.isValidDate(date, lblErrorMessageDate)) {
+            isValid = false;
+        } else {
+            lblErrorMessageDate.setText("");
+        }
+        
+        if (!ValidationUtil.isValidCategory(category, lblErrorMessageCategory)) {
+            isValid = false;
+        } else {
+            lblErrorMessageCategory.setText("");
+        }
+        
+        if (!ValidationUtil.isValidIncomeExpensive(incomeExpense, lblErrorMessageIE)) {
+            isValid = false;
+        } else {
+            lblErrorMessageIE.setText("");
+        }
+
+        if (!ValidationUtil.isValidSourceVender(sourceVendor, lblErrorMessageSV)) {
+            isValid = false;
+        } else {
+            lblErrorMessageSV.setText("");
+        }
+
+        if (!ValidationUtil.isValidAmount(amount, lblErrorMessageAmount)) {
+            isValid = false;
+        } else {
+            lblErrorMessageAmount.setText("");
+        }
+        
+        if (!ValidationUtil.isValidRemarks(remarks, lblErrorMessageRemarks)) {
+            isValid = false;
+        } else {
+            lblErrorMessageRemarks.setText("");
+        }
+
+        // If validation passes
+        if (isValid) {
+
+            int paymentIdValue = Integer.parseInt(paymentId); // Convert paymentId to int
+            double amountValue = Double.parseDouble(amount); // Convert amount to double
+
+            // Check for duplicate PaymentID
+            if (isPaymentIdExists(paymentIdValue)) {
+                JOptionPane.showMessageDialog(this,
+                        "Payment ID " + paymentId + " already exists and cannot be added!",
+                        "Duplicate Entry",
+                        JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Create a new PaymentModel
+                TransactionModel payment = new TransactionModel(paymentIdValue, date, category, incomeExpense,
+                        sourceVendor, amountValue, mode, remarks);
+
+                // Add payment to the list and table
+                registerPayment(payment);
+
+                //lblErrorPaymentId.setText("Your data has been successfully updated.");
+                //lblErrorPaymentId.setForeground(Color.BLUE);
+
+                // Clear input fields
+                //clearInputFields();
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter valid data for all fields.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Action cancelled.", "Cancelled", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void spTblTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spTblTransactionMouseClicked
+        // TODO add your handling code here:
+//        // Get the selected row index
+//    int selectedRow = tblTransaction.getSelectedRow();
+//    
+//    if (selectedRow != -1) {
+//        // Change selection background and foreground colors
+//        tblTransaction.setSelectionBackground(new Color(173, 216, 230)); // Light Blue color
+//        tblTransaction.setSelectionForeground(Color.BLACK); // Black text for selection
+//
+//        // Set data from table row to input fields
+//        txtFldPaymentID.setText(tblTransaction.getValueAt(selectedRow, 0).toString());
+//        txtFldDate.setText(tblTransaction.getValueAt(selectedRow, 1).toString());
+//        txtFldCategory.setText(tblTransaction.getValueAt(selectedRow, 2).toString());
+//        txtFldIncomeExpense.setText(tblTransaction.getValueAt(selectedRow, 3).toString());
+//        txtFldSourceVendor.setText(tblTransaction.getValueAt(selectedRow, 4).toString());
+//        txtFldAmount.setText(tblTransaction.getValueAt(selectedRow, 5).toString());
+//        txtFldRemarks.setText(tblTransaction.getValueAt(selectedRow, 6).toString());
+//        jcBoxMode.setSelectedItem(tblTransaction.getValueAt(selectedRow, 7).toString()); // For JComboBox
+//    } else {
+//        // Optional: Clear fields if no row is selected
+//        clearInputFields();
+//    }
+    }//GEN-LAST:event_spTblTransactionMouseClicked
+
+    private void tblTransactionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTransactionMouseClicked
+        // TODO add your handling code here:
+        tblTransaction.addMouseListener(new java.awt.event.MouseAdapter() {
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        tblTransaction.setSelectionBackground(new Color(173, 216, 230)); // Light Blue color
+        tblTransaction.setSelectionForeground(Color.BLACK); // Black text for selection
+
+        int selectedRow = tblTransaction.getSelectedRow();
+        if (selectedRow != -1) {
+            txtFldPaymentID.setText(tblTransaction.getValueAt(selectedRow, 0).toString());
+            txtFldDate.setText(tblTransaction.getValueAt(selectedRow, 1).toString());
+            txtFldCategory.setText(tblTransaction.getValueAt(selectedRow, 2).toString());
+            txtFldIncomeExpense.setText(tblTransaction.getValueAt(selectedRow, 3).toString());
+            txtFldSourceVendor.setText(tblTransaction.getValueAt(selectedRow, 4).toString());
+            txtFldAmount.setText(tblTransaction.getValueAt(selectedRow, 5).toString());
+            jcBoxMode.setSelectedItem(tblTransaction.getValueAt(selectedRow, 6).toString()); // For JComboBox
+            txtFldRemarks.setText(tblTransaction.getValueAt(selectedRow, 7).toString());
+        }
+    }
+});
+    }//GEN-LAST:event_tblTransactionMouseClicked
+
+    private void txtSearchValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchValueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchValueActionPerformed
+
+    private void btnSortingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortingActionPerformed
+        // TODO add your handling code here:
+            // Retrieve the selected field and sorting order from combo boxes
+    String selectedField = cmbSortedBy.getSelectedItem().toString();  
+    String selectedOrder = cmbSelectionSortingOrder.getSelectedItem().toString();  // For selecting Ascending/Descending
+
+    // Check if a valid field is selected
+    if (selectedField.equals("Select Field")) {
+        JOptionPane.showMessageDialog(this, "Please select a valid field for sorting (PaymentID, Category, or Source/Vendor).", "Error", JOptionPane.ERROR_MESSAGE);
+        return; // Exit if no field is selected
+    }
+
+    // Determine the sort order: true for descending, false for ascending
+    boolean isDesc = selectedOrder.equals("Descending");
+
+    // Initialize the sorted list variable
+    List<TransactionModel> sortedList = null;
+
+    // Sort the data based on the selected field
+    if (selectedField.equals("Payment ID")) {
+        // Use SelectionSort for Payment ID
+        SelectionSort selectionSort = new SelectionSort();
+        sortedList = selectionSort.sortByPaymentID(paymentList, isDesc);
+    } else if (selectedField.equals("Category")) {
+        // Use InsertionSort for Category
+        InsertionSort insertionSort = new InsertionSort();
+        sortedList = insertionSort.sortByCategory(paymentList, isDesc);
+    } else if (selectedField.equals("Source/Vendor")) {
+        // Use MergeSort for Source/Vendor
+        MergeSort mergeSort = new MergeSort();
+        sortedList = mergeSort.sortBySourceVendor(paymentList, isDesc);
+    }
+
+    // Check if sortedList is not null before loading it into the table
+    if (sortedList != null && !sortedList.isEmpty()) {
+        loadListToTable(sortedList);
+    } else {
+        JOptionPane.showMessageDialog(this, "No data available for sorting.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnSortingActionPerformed
+
+    private void btnSearchingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchingActionPerformed
+        // TODO add your handling code here:
+        // Get user inputs
+        String searchValue = txtSearchValue.getText().trim();
+        String selectedColumn = "Payment ID";
+
+        // Validate input
+        if (searchValue.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a value to search.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        BinarySearch binarySearch = new BinarySearch();
+        // Sort the payment list based on the selected column
+        sortTransactionList(selectedColumn);
+
+        // Perform binary search
+        TransactionModel result = binarySearch.searchByPaymentID(searchValue, selectedColumn, paymentList, 0, paymentList.size() - 1);
+
+        // Display result
+        showSearchResult(result);
+    }//GEN-LAST:event_btnSearchingActionPerformed
+
+    private void txtFldNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldNameActionPerformed
+
+    private void txtFldEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFldEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFldEmailActionPerformed
+
+    private void btnSendMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendMessageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSendMessageActionPerformed
+
+    private void sortTransactionList(String selectedColumn) {
+             
+        SelectionSort selectionSort = new SelectionSort();
+        if (selectedColumn.equals("Payment ID")) {
+            // Sort in Ascending order
+            boolean isDesc = false;
+            // Sort the paymentList using SelectionSort
+            paymentList = selectionSort.sortByPaymentID(paymentList, isDesc);
+            
+        } 
+    }
+    
+    
+    // Display search results
+    public void showSearchResult(TransactionModel result) {
+        if (result == null) {
+            JOptionPane.showMessageDialog(null, "No matching record found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        // Column names
+        String[] columnNames = {"Payment ID", "Date", "Category", "Income/Expense", "Source/Vendor", "Amount", "Mode", "Remarks"};
+
+        // Data for table
+        Object[][] data = {
+            {result.getPaymentID(), result.getDate(), result.getCategory(), result.getIncomeExpense(), result.getSourceVendor(), result.getAmount(), result.getMode(), result.getRemarks()}
+        };
+
+        // Table model
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        JTable table = new JTable(tableModel);
+
+        // Scroll pane
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(1000, 300));
+
+        // Dialog box
+        JOptionPane optionPane = new JOptionPane(scrollPane, JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION);
+        JDialog dialog = optionPane.createDialog(null, "Search Result");
+        dialog.setSize(1000, 300);
+        dialog.setVisible(true);
+    }
+    
+    
+    
+    
+    
+    private void loadListToTable(List<TransactionModel>paymentList){
+        DefaultTableModel model=(DefaultTableModel) tblTransaction.getModel();
+        
+        //clear existing rows if needed
+        model.setRowCount(0);
+        
+        //populate the table with payment data
+        paymentList.forEach(payment-> model.addRow(new Object[]{
+        payment.getPaymentID(),
+        payment.getDate(),
+        payment.getCategory(),
+        payment.getIncomeExpense(),
+        payment.getSourceVendor(),
+        payment.getAmount(),
+        payment.getMode(),
+        payment.getRemarks()
+    }));
+    }
+    
+    
+    
+    
+    
+    
+//    // Helper method to clear input fields (optional)
+//    private void clearInputFields() {
+//        txtFldPaymentID.setText("");
+//        txtFldDate.setText("");
+//        txtFldCategory.setText("");
+//        txtFldIncomeExpense.setText("");
+//        txtFldSourceVendor.setText("");
+//        txtFldAmount.setText("");
+//        txtFldRemarks.setText("");
+//        jcBoxMode.setSelectedIndex(0); // Reset JComboBox to default
+//    }
+//    
+    
+    
+    private boolean isPaymentIdExistsForUpdate(int paymentId, int currentRow) {
+    for (int i = 0; i < paymentList.size(); i++) {
+        if (i != currentRow && paymentList.get(i).getPaymentID() == paymentId) { 
+            return true; // payment ID already exists in another row
+        }
+    }
+    return false; // Payment ID is unique for update
+}
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MoneyHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MoneyHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MoneyHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MoneyHandler.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MoneyHandler().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnSearching;
+    private javax.swing.JButton btnSendMessage;
+    private javax.swing.JButton btnSorting;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbSelectionSortingOrder;
+    private javax.swing.JComboBox<String> cmbSortedBy;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox<String> jcBoxMode;
+    private javax.swing.JLabel lblAboutUs;
+    private javax.swing.JLabel lblContactNumber;
+    private javax.swing.JLabel lblContactUs;
+    private javax.swing.JLabel lblEmail;
+    private javax.swing.JLabel lblErrorMessageAmount;
+    private javax.swing.JLabel lblErrorMessageCategory;
+    private javax.swing.JLabel lblErrorMessageDate;
+    private javax.swing.JLabel lblErrorMessageIE;
+    private javax.swing.JLabel lblErrorMessageLogin;
+    private javax.swing.JLabel lblErrorMessagePaymentID;
+    private javax.swing.JLabel lblErrorMessageRemarks;
+    private javax.swing.JLabel lblErrorMessageSV;
+    private javax.swing.JLabel lblHome;
+    private javax.swing.JLabel lblHomeSlogan1;
+    private javax.swing.JLabel lblHomeSlogan2;
+    private javax.swing.JLabel lblHomeSlogan3;
+    private javax.swing.JLabel lblHomeWelcome;
+    private javax.swing.JLabel lblLoadingLogo;
+    private javax.swing.JLabel lblLoginLogo;
+    private javax.swing.JLabel lblLoginPassword;
+    private javax.swing.JLabel lblLoginSlogan;
+    private javax.swing.JLabel lblLoginSlogan2;
+    private javax.swing.JLabel lblLoginUsername;
+    private javax.swing.JLabel lblMainBarLogo;
+    private javax.swing.JLabel lblMainBarSlogan;
+    private javax.swing.JLabel lblMessage;
+    private javax.swing.JLabel lblMoneyHandler;
+    private javax.swing.JLabel lblName;
+    private javax.swing.JLabel lblSlogan;
+    private javax.swing.JLabel lblTblTransaction;
+    private javax.swing.JLabel lblTeam;
+    private javax.swing.JProgressBar pgBarSplashScreen;
+    private javax.swing.JPanel pnlAboutUs;
+    private javax.swing.JPanel pnlContactUs;
+    private javax.swing.JPanel pnlHome;
+    private javax.swing.JPanel pnlLoadingScreen;
+    private javax.swing.JPanel pnlLoginScreen;
+    private javax.swing.JPanel pnlMainBar;
+    private javax.swing.JPanel pnlMainScreen;
+    private javax.swing.JPanel pnlPersonalTransactionForm;
+    private javax.swing.JPanel pnlTransactionList;
+    private javax.swing.JPasswordField pwdFldLoginPassword;
+    private javax.swing.JScrollPane spTblTransaction;
+    private javax.swing.JTabbedPane tabPaneMain;
+    private javax.swing.JTable tblTransaction;
+    private javax.swing.JTextField txtFldAmount;
+    private javax.swing.JTextField txtFldCategory;
+    private javax.swing.JTextField txtFldContactNumber;
+    private javax.swing.JTextField txtFldDate;
+    private javax.swing.JTextField txtFldEmail;
+    private javax.swing.JTextField txtFldIncomeExpense;
+    private javax.swing.JTextField txtFldLoginUsername;
+    private javax.swing.JTextField txtFldMessage;
+    private javax.swing.JTextField txtFldName;
+    private javax.swing.JTextField txtFldPaymentID;
+    private javax.swing.JTextField txtFldRemarks;
+    private javax.swing.JTextField txtFldSourceVendor;
+    private javax.swing.JTextField txtSearchValue;
+    // End of variables declaration//GEN-END:variables
+}
